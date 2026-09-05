@@ -1,0 +1,8 @@
+.env
+*.key
+*.pem
+*.sqlite
+*.sqlite3
+backups/
+exports/
+template-smoke-test/

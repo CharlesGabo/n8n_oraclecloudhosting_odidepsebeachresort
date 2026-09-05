@@ -1,32 +1,53 @@
-version: '3.8'
+name: n8n-oracle
 
 services:
   caddy:
-    image: caddy:latest
+    image: caddy:${CADDY_VERSION:-2-alpine}
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
+      - "443:443/udp"
+    environment:
+      N8N_DOMAIN: ${N8N_DOMAIN:?Set N8N_DOMAIN in .env}
+      ACME_EMAIL: ${ACME_EMAIL:?Set ACME_EMAIL in .env}
     volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
-    environment:
-      - SUBDOMAIN=://yourdomain.com # Change to your Z.com subdomain
-    command: caddy reverse-proxy --from $${SUBDOMAIN} --to n8n:5678
+    depends_on:
+      - n8n
+    networks:
+      - edge
 
   n8n:
-    image: n8nio/n8n:latest
+    image: n8nio/n8n:${N8N_VERSION:?Pin N8N_VERSION in .env}
     restart: unless-stopped
-    ports:
-      - "5678:5678"
+    expose:
+      - "5678"
+    environment:
+      N8N_HOST: ${N8N_DOMAIN:?Set N8N_DOMAIN in .env}
+      N8N_PORT: "5678"
+      N8N_PROTOCOL: https
+      N8N_EDITOR_BASE_URL: https://${N8N_DOMAIN}/
+      WEBHOOK_URL: https://${N8N_DOMAIN}/
+      N8N_PROXY_HOPS: "1"
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?Set N8N_ENCRYPTION_KEY in .env}
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE:-Asia/Manila}
+      TZ: ${GENERIC_TIMEZONE:-Asia/Manila}
+      NODE_ENV: production
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      EXECUTIONS_DATA_PRUNE: "true"
+      EXECUTIONS_DATA_MAX_AGE: ${EXECUTIONS_DATA_MAX_AGE:-336}
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
     volumes:
       - n8n_data:/home/node/.n8n
-    environment:
-      - N8N_HOST=://yourdomain.com # Change to your Z.com subdomain
-      - N8N_PORT=5678
-      - N8N_PROTOCOL=https
-      - NODE_ENV=production
-      - WEBHOOK_URL=https://://yourdomain.com/ # Change to your Z.com subdomain
+    networks:
+      - edge
+
+networks:
+  edge:
 
 volumes:
   caddy_data:
