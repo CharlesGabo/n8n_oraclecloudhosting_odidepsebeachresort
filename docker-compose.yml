@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - SUBDOMAIN=://yourdomain.com # Change to your Z.com subdomain
+    command: caddy reverse-proxy --from $${SUBDOMAIN} --to n8n:5678
+
+  n8n:
+    image: n8nio/n8n:latest
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    environment:
+      - N8N_HOST=://yourdomain.com # Change to your Z.com subdomain
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://://yourdomain.com/ # Change to your Z.com subdomain
+
+volumes:
+  caddy_data:
+  caddy_config:
+  n8n_data:
