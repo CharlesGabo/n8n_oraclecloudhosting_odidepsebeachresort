@@ -36,17 +36,18 @@ of deployment state.
 
 ## Single Goal
 
-Deploy the user's existing local n8n workflow to one OCI Always Free-eligible
-Ubuntu Ampere A1 VM, publish it at `https://n8n.example.com` through Caddy,
-manage its DNS in Z.com/cPanel, and validate a continuously available Facebook
-Messenger auto-reply workflow without running Node.js or n8n on Z.com hosting.
+Deploy n8n to one OCI Always Free-eligible Ubuntu Ampere A1 VM, publish it at
+`https://n8n.example.com` through Caddy, manage its DNS in Z.com/cPanel, then
+build and validate a continuously available Facebook Messenger auto-reply
+workflow without running Node.js or n8n on Z.com hosting.
 
 The example hostname is never a literal deployment value. Obtain the user's real
 subdomain and OCI reserved public IPv4 address before deployment.
 
 ## Definition of Done
 
-- The workflow and required credentials have been safely inventoried/exported.
+- The source n8n installation is safely inventoried/backed up; any existing
+  workflows are exported, or the inventory explicitly records a greenfield build.
 - The OCI VM is Always Free-eligible and has persistent storage and a reserved
   public IPv4 address.
 - Only SSH, HTTP, and HTTPS are public. n8n port `5678` remains private inside
@@ -93,12 +94,14 @@ subdomain and OCI reserved public IPv4 address before deployment.
 
 Follow [DEPLOYMENT_PLAN.md](DEPLOYMENT_PLAN.md) and do not skip its gates:
 
-1. Inventory and backup the local n8n installation.
+1. Inventory and backup the local n8n installation; record whether the workflow
+   will be migrated or built new.
 2. Provision and harden the OCI VM.
 3. Configure the hostname and validate DNS.
 4. Configure `.env`, launch Docker Compose, and validate HTTPS.
-5. Import the workflow and recreate/test credentials.
-6. Configure and verify the Meta Messenger webhook.
+5. Import an existing workflow or build the new Messenger workflow, then configure
+   and test its credentials.
+6. Configure and verify the Meta Messenger webhook end to end.
 7. Test restart recovery, backups, monitoring, and optional reclamation mitigation.
 
 ## Workspace Files

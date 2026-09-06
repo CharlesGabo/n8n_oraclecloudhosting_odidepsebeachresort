@@ -2,9 +2,9 @@
 
 ## Goal and current boundary
 
-The single goal and definition of done are in `AGENTS.md`. This plan prepares the
-infrastructure first; building or activating the Messenger automation begins only
-after the platform passes Stages 1–4.
+The single goal and definition of done are in `AGENTS.md`. This is a greenfield
+Messenger workflow project: infrastructure comes first, and the workflow is built
+only after the platform passes Stages 1–4.
 
 Record the real values before deployment:
 
@@ -17,11 +17,13 @@ Record the real values before deployment:
 Use `MIGRATION_INVENTORY.md` as the authoritative record for these values and all
 Stage 1 dependencies. Never enter secret values in that file.
 
-## Stage 1 — Inventory and export local n8n
+## Stage 1 — Inventory and back up local n8n
 
 1. Record the local n8n version and installed community nodes.
 2. Back up the local `.n8n` directory/database and encryption key if available.
-3. In each workflow canvas, use the top-right menu and download the workflow JSON.
+3. Record whether the project migrates an existing workflow or builds a new one.
+   For this project, no Messenger workflow exists yet, so workflow export is not
+   required and Stage 5 will be a new build.
 4. Inventory credentials, environment variables, webhook paths, Meta app/page IDs,
    and external files. Do not store their secret values in this repository.
 5. Keep exports in encrypted storage; workflow JSON can contain sensitive values.
@@ -46,8 +48,8 @@ Stage 1 dependencies. Never enter secret values in that file.
    The resulting ignored ZIP contains sensitive database and encryption material.
    Keep it private and encrypt it before copying it off the workstation.
 
-Gate: backup restoration information, workflow JSON, dependencies, and credential
-inventory are available before any cloud changes.
+Gate: the local installation and backup are recorded, the greenfield decision is
+explicit, and relevant dependencies/credentials are inventoried before cloud work.
 
 ## Stage 2 — Provision and harden OCI
 
@@ -117,13 +119,16 @@ Gate: public DNS returns exactly the reserved OCI IPv4.
 Gate: HTTPS has a trusted certificate, HTTP redirects to HTTPS, the editor loads,
 and all containers recover after `sudo reboot`.
 
-## Stage 5 — Import and validate n8n
+## Stage 5 — Build and validate the Messenger workflow
 
-1. Import the workflow JSON through the n8n UI.
-2. Reinstall compatible community nodes, if any.
-3. Recreate credentials in n8n; never paste them into workflow JSON or Git.
-4. Update environment-dependent URLs and run with test data while inactive.
-5. Export a post-migration backup and test a restore procedure.
+1. Create a new inactive workflow in the secured cloud n8n editor.
+2. Build the Meta webhook verification and Messenger event-handling path using
+   supported built-in nodes; add community nodes only when strictly necessary.
+3. Create credentials in n8n; never paste tokens into workflow JSON or Git.
+4. Add validation, duplicate-event protection, error handling, and a controlled
+   fallback response before enabling live replies.
+5. Test with development data while inactive, then export a checksummed workflow
+   JSON and create a post-build data backup.
 
 Gate: every node executes successfully with test data and no secret appears in
 logs or repository files.

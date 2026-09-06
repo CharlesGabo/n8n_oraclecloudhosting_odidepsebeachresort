@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "fictional": true,
+  "lastReviewed": "2026-09-06",
+  "resort": {
+    "name": "Seabreeze Cove Resort",
+    "location": "San Isidro, Batangas, Philippines",
+    "timezone": "Asia/Manila",
+    "currency": "PHP",
+    "supportHours": "08:00-20:00 daily",
+    "phone": "+63 900 000 0000",
+    "email": "reservations@example.invalid"
+  },
+  "stay": {
+    "checkIn": "14:00",
+    "checkOut": "12:00",
+    "validIdRequired": true,
+    "rooms": [
+      {
+        "name": "Garden Room",
+        "capacity": 2,
+        "beds": "1 queen",
+        "weekdayRate": 3200,
+        "weekendRate": 3700,
+        "petEligible": true
+      },
+      {
+        "name": "Deluxe Sea View",
+        "capacity": 3,
+        "beds": "1 queen and 1 single",
+        "weekdayRate": 4600,
+        "weekendRate": 5200,
+        "petEligible": false
+      },
+      {
+        "name": "Family Villa",
+        "capacity": 6,
+        "beds": "2 queen and 2 single",
+        "weekdayRate": 7900,
+        "weekendRate": 8900,
+        "petEligible": false
+      }
+    ],
+    "extraPersonFee": 700,
+    "included": ["taxes", "breakfast", "pool", "beach", "Wi-Fi", "parking"]
+  },
+  "dayUse": {
+    "hours": "08:00-18:00",
+    "adultRate": 600,
+    "childRateAges4To11": 350,
+    "ages0To3Rate": 0,
+    "included": ["pool", "beach", "shower", "common areas"],
+    "notIncluded": ["room", "meals", "cottages", "towels", "water activities"]
+  },
+  "booking": {
+    "requiredFields": ["name", "arrival", "departure", "adults", "children and ages", "preferred option", "contact method"],
+    "depositPercent": 50,
+    "availabilityRequiresHumanConfirmation": true,
+    "requestIsNotConfirmation": true,
+    "paymentMethods": ["GCash", "bank transfer", "Visa", "Mastercard", "cash"]
+  },
+  "policies": {
+    "cancellation": [
+      "7 or more days: refundable less payment fees",
+      "3 to 6 days: one rebooking within 90 days",
+      "less than 72 hours or no-show: deposit non-refundable"
+    ],
+    "quietHours": "22:00-07:00",
+    "poolHours": "07:00-21:00",
+    "pet": "One dog or cat up to 10 kg in designated Garden Rooms; PHP 500 per stay",
+    "outsideFood": "Designated picnic areas only; no cooking appliances or open flames"
+  },
+  "amenities": ["beach", "outdoor pool", "Wi-Fi", "parking", "restaurant", "day-use showers"],
+  "unavailableAmenities": ["gym", "spa", "airport shuttle", "room service"],
+  "handoffTriggers": [
+    "live availability",
+    "final quotation or discount",
+    "booking confirmation",
+    "refund or cancellation approval",
+    "payment verification",
+    "emergency or safety issue",
+    "accessibility, allergy, legal, privacy, or medical concern",
+    "angry or repeatedly misunderstood guest",
+    "explicit request for a person",
+    "answer absent from approved knowledge"
+  ]
+}
