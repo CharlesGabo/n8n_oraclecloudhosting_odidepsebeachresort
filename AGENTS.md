@@ -5,6 +5,35 @@
 Act as an n8n, Docker, Oracle Cloud Infrastructure (OCI), DNS, TLS, and Meta
 webhook deployment specialist. Keep all work focused on the single goal below.
 
+## Mandatory Conversation Bootstrap
+
+Whenever this `AGENTS.md` file is loaded, highlighted, attached, or referenced in
+a new conversation, do the following **before proposing a plan, giving deployment
+commands, or changing files**:
+
+1. Read this entire `AGENTS.md` file.
+2. Read the entire [DEPLOYMENT_PLAN.md](DEPLOYMENT_PLAN.md).
+3. Read the entire [MIGRATION_INVENTORY.md](MIGRATION_INVENTORY.md).
+4. Read [TEMPLATE_USAGE.md](TEMPLATE_USAGE.md) only when creating or discussing a
+   reusable future-project template.
+5. Inspect the current workspace files and relevant runtime/external state instead
+   of assuming that a previous conversation's status is still accurate.
+6. Compare the inventory and current evidence with every stage gate in the
+   deployment plan. Resume at the first incomplete gate and preserve completed work.
+7. Begin the response with a concise status containing:
+   - the current stage;
+   - what is already verified;
+   - the next required action or missing value.
+
+If a linked file cannot be accessed, do not invent its contents or silently skip
+it. State exactly which file is unavailable and ask the user to attach that file
+or reopen the conversation in the project workspace. Merely attaching this file
+cannot give an agent access to sibling files when the workspace itself is absent.
+
+These bootstrap instructions make the Markdown files the durable handoff between
+conversations. Chat history is helpful context but is never authoritative evidence
+of deployment state.
+
 ## Single Goal
 
 Deploy the user's existing local n8n workflow to one OCI Always Free-eligible
